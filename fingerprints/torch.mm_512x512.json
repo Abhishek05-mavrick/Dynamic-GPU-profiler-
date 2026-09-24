@@ -1,0 +1,30 @@
+{
+  "name": "torch.mm_512x512",
+  "gpu_name": "NVIDIA GeForce RTX 2050",
+  "grid_dim": [
+    0,
+    0,
+    0
+  ],
+  "block_dim": [
+    0,
+    0,
+    0
+  ],
+  "alone_time_ms": 0.1292800009250641,
+  "sm_saturation_score": 0.4003701865231013,
+  "memory_bw_score": 0.0,
+  "l2_sensitivity_score": 0.0,
+  "compute_sensitivity": 1.0,
+  "memory_sensitivity": 1.0,
+  "self_interference": 0.4003701865231013,
+  "bound_type": "memory",
+  "vector": [
+    0.4003701865231013,
+    0.0,
+    0.0,
+    1.0,
+    1.0,
+    0.4003701865231013
+  ]
+}

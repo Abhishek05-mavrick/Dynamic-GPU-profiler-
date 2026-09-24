@@ -1,0 +1,30 @@
+{
+  "name": "relu_scale_5M",
+  "gpu_name": "NVIDIA GeForce RTX 2050",
+  "grid_dim": [
+    0,
+    0,
+    0
+  ],
+  "block_dim": [
+    0,
+    0,
+    0
+  ],
+  "alone_time_ms": 1.191424012184143,
+  "sm_saturation_score": 0.9678715272237255,
+  "memory_bw_score": 0.0,
+  "l2_sensitivity_score": 0.0,
+  "compute_sensitivity": 0.13768116265656594,
+  "memory_sensitivity": 1.0,
+  "self_interference": 0.9678715272237255,
+  "bound_type": "memory",
+  "vector": [
+    0.9678715272237255,
+    0.0,
+    0.0,
+    0.13768116265656594,
+    1.0,
+    0.9678715272237255
+  ]
+}

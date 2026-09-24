@@ -1,0 +1,30 @@
+{
+  "name": "tensor.clone_10M",
+  "gpu_name": "NVIDIA GeForce RTX 2050",
+  "grid_dim": [
+    0,
+    0,
+    0
+  ],
+  "block_dim": [
+    0,
+    0,
+    0
+  ],
+  "alone_time_ms": 0.8144479990005493,
+  "sm_saturation_score": 0.9347507005119122,
+  "memory_bw_score": 0.68859380867921,
+  "l2_sensitivity_score": 0.0,
+  "compute_sensitivity": 0.17004256873560641,
+  "memory_sensitivity": 1.0,
+  "self_interference": 0.9347507005119122,
+  "bound_type": "memory",
+  "vector": [
+    0.9347507005119122,
+    0.68859380867921,
+    0.0,
+    0.17004256873560641,
+    1.0,
+    0.9347507005119122
+  ]
+}
