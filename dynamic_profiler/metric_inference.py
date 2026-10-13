@@ -10,14 +10,25 @@ we infer interference-relevant metrics by running controlled timing experiments:
 4. L2 Sensitivity:     sweep data sizes across L2 boundary → latency knee
 """
 
-import torch
+import sys
+from pathlib import Path
 from typing import Callable, Tuple, Dict, List, Optional
+import torch
 
-from .gpu_config import GPUConfig
-from .kernel_timer import (
-    measure_kernel_alone,
-    measure_kernels_colocated,
-)
+try:
+    from .gpu_config import GPUConfig
+    from .kernel_timer import (
+        measure_kernel_alone,
+        measure_kernels_colocated,
+    )
+except (ImportError, ValueError):
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from gpu_config import GPUConfig
+    from kernel_timer import (
+        measure_kernel_alone,
+        measure_kernels_colocated,
+    )
+
 
 
 def infer_sm_saturation(

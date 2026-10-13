@@ -11,9 +11,16 @@ the interference sources identified in the paper:
   §4.2.2 IPC / Warp Scheduler  → compute_sensitivity + self_interference
   §4.2.3 Pipeline               → compute_sensitivity (partial)
 """
-
-from .fingerprint import KernelFingerprint
+import sys
+from pathlib import Path
 from typing import Dict
+
+try:
+    from .fingerprint import KernelFingerprint
+except (ImportError, ValueError):
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from fingerprint import KernelFingerprint
+
 
 
 def predict_interference(

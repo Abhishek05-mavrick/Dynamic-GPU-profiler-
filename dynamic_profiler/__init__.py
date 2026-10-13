@@ -34,6 +34,7 @@ from .metric_inference import (
 )
 from .interference_predictor import predict_interference
 from .profiler import build_fingerprint
+from .telemetry import Capability, Metric, MetricStatus, TelemetrySample, TelemetrySampler
 
 __version__ = "0.1.0"
 __all__ = [
@@ -48,4 +49,9 @@ __all__ = [
     "infer_l2_cache_sensitivity",
     "predict_interference",
     "build_fingerprint",
+    "Capability",
+    "Metric",
+    "MetricStatus",
+    "TelemetrySample",
+    "TelemetrySampler",
 ]

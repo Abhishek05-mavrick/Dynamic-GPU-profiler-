@@ -27,6 +27,7 @@ Dynamic-GPU-profiler-/
 ├── dynamic_profiler/
 │   ├── __init__.py                # Package exports
 │   ├── gpu_config.py              # Hardware auto-detection & spec lookup
+│   ├── telemetry.py               # Restricted-VM NVML and host telemetry
 │   ├── kernel_timer.py            # CUDA event timing (alone, sequential, colocated)
 │   ├── fingerprint.py             # KernelFingerprint data structure & serialization
 │   ├── metric_inference.py        # Timing-based inference experiments
@@ -52,6 +53,35 @@ pip install torch --index-url https://download.pytorch.org/whl/cu121
 ---
 
 ## Quickstart
+
+### Restricted-VM telemetry
+
+The telemetry sampler is designed for fractional H200 VMs and falls back to
+RTX/unknown NVIDIA devices. It does not require root, `CAP_SYS_ADMIN`, DCGM
+host control, or `nvidia-smi` polling. Install optional bindings in the VM:
+
+```bash
+pip install nvidia-ml-py psutil
+```
+
+Then collect scheduler samples:
+
+```python
+from dynamic_profiler import TelemetrySampler
+
+with TelemetrySampler(device_index=0) as sampler:
+    print(sampler.gpu_name)
+    print(sampler.capabilities())
+    sample = sampler.sample()
+    print(sample.to_dict())
+```
+
+NVML-backed memory, coarse GPU busy time, and PCIe values are collected when
+the VM exposes them. CPU, host memory, and network values come from the host
+OS. SM/compute, Tensor, DRAM, and exact GPU bandwidth counters are explicitly
+marked unsupported until DCGM or CUPTI is exposed. NVLink is only reported
+when links and counters are visible inside the VM; an RTX 2050 normally has no
+NVLink.
 
 ### 1. Run the Verification Demo
 To verify GPU compatibility and profile sample workloads:

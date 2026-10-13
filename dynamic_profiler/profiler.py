@@ -6,17 +6,31 @@ KernelFingerprint for any given CUDA kernel. Designed to run inside
 Jupyter notebooks with no special permissions.
 """
 
-import torch
+import sys
+from pathlib import Path
 from typing import Callable, Optional
+import torch
 
-from .gpu_config import GPUConfig
-from .fingerprint import KernelFingerprint
-from .kernel_timer import measure_kernel_alone
-from .metric_inference import (
-    infer_sm_saturation,
-    infer_memory_bandwidth,
-    infer_compute_vs_memory_bound,
-)
+try:
+    from .gpu_config import GPUConfig
+    from .fingerprint import KernelFingerprint
+    from .kernel_timer import measure_kernel_alone
+    from .metric_inference import (
+        infer_sm_saturation,
+        infer_memory_bandwidth,
+        infer_compute_vs_memory_bound,
+    )
+except (ImportError, ValueError):
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from gpu_config import GPUConfig
+    from fingerprint import KernelFingerprint
+    from kernel_timer import measure_kernel_alone
+    from metric_inference import (
+        infer_sm_saturation,
+        infer_memory_bandwidth,
+        infer_compute_vs_memory_bound,
+    )
+
 
 
 def build_fingerprint(
@@ -106,3 +120,23 @@ def build_fingerprint(
     log("")
 
     return fp
+
+
+if __name__ == "__main__":
+    print("=" * 60)
+    print("  Dynamic GPU Profiler")
+    print("=" * 60)
+    if not torch.cuda.is_available():
+        print("\nCUDA is not currently available.")
+        print("To profile GPU kernels, run on a system with an NVIDIA GPU and install PyTorch with CUDA:")
+        print("  pip install torch --index-url https://download.pytorch.org/whl/cu121\n")
+    else:
+        gpu = GPUConfig.detect()
+        print(f"\nDetected GPU: {gpu.name} ({gpu.num_sms} SMs, CC {gpu.compute_capability[0]}.{gpu.compute_capability[1]})")
+        print("\nRunning quick test kernel (matmul 1024x1024)...")
+        device = torch.device(f"cuda:{gpu.device_index}")
+        a = torch.randn(1024, 1024, device=device)
+        b = torch.randn(1024, 1024, device=device)
+        fp = build_fingerprint("matmul_1024", lambda: torch.mm(a, b), gpu=gpu)
+        print(fp)
+
